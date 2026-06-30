@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 52" fill="none">
+  <path d="M4 12h28c2.2 0 4 1.8 4 4v20c0 2.2-1.8 4-4 4H4V12z" fill="#fff"/>
+  <path d="M12 22h12v2H12v-2zm0 6h16v2H12v-2z" fill="#057143"/>
+  <text x="44" y="32" font-family="Montserrat, Arial, sans-serif" font-size="22" font-weight="800" fill="#fff">Pumangol</text>
+  <text x="44" y="44" font-family="Montserrat, Arial, sans-serif" font-size="9" font-weight="500" fill="rgba(255,255,255,0.7)">Cria boa energia.</text>
+</svg>

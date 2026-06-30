@@ -1,0 +1,26 @@
+.hero-typewriter-lines {
+  display: block;
+}
+
+.hero-typewriter-line1,
+.hero-typewriter-line2 {
+  display: block;
+}
+
+.hero-typewriter-accent {
+  color: var(--brand-primary);
+}
+
+.hero-typewriter-line2 {
+  color: var(--gray-900);
+}
+
+.hero-typewriter-cursor {
+  color: var(--brand-primary);
+  font-weight: 400;
+  opacity: 0;
+}
+
+.hero-typewriter-cursor.is-visible {
+  opacity: 1;
+}

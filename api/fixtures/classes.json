@@ -1,0 +1,84 @@
+{
+  "data": [
+    {
+      "id": "classe-pre-escolar",
+      "name": "Pré-escolar",
+      "slug": "pre-escolar",
+      "educationLevelId": "nivel-primario",
+      "sortOrder": 1
+    },
+    {
+      "id": "classe-1",
+      "name": "1ª Classe",
+      "slug": "1a-classe",
+      "educationLevelId": "nivel-primario",
+      "sortOrder": 2
+    },
+    {
+      "id": "classe-6",
+      "name": "6ª Classe",
+      "slug": "6a-classe",
+      "educationLevelId": "nivel-primario",
+      "sortOrder": 3
+    },
+    {
+      "id": "classe-7",
+      "name": "7ª Classe",
+      "slug": "7a-classe",
+      "educationLevelId": "nivel-primario",
+      "sortOrder": 4
+    },
+    {
+      "id": "classe-8",
+      "name": "8ª Classe",
+      "slug": "8a-classe",
+      "educationLevelId": "nivel-primario",
+      "sortOrder": 5
+    },
+    {
+      "id": "classe-9",
+      "name": "9ª Classe",
+      "slug": "9a-classe",
+      "educationLevelId": "nivel-secundario-i",
+      "sortOrder": 6
+    },
+    {
+      "id": "classe-10",
+      "name": "10ª Classe",
+      "slug": "10a-classe",
+      "educationLevelId": "nivel-secundario-ii",
+      "sortOrder": 7
+    },
+    {
+      "id": "classe-11",
+      "name": "11ª Classe",
+      "slug": "11a-classe",
+      "educationLevelId": "nivel-secundario-ii",
+      "sortOrder": 8
+    },
+    {
+      "id": "classe-12",
+      "name": "12ª Classe",
+      "slug": "12a-classe",
+      "educationLevelId": "nivel-secundario-ii",
+      "sortOrder": 9
+    },
+    {
+      "id": "classe-curso-tecnico",
+      "name": "Curso Técnico",
+      "slug": "curso-tecnico",
+      "educationLevelId": "nivel-tecnico-profissional",
+      "sortOrder": 10
+    },
+    {
+      "id": "classe-geral",
+      "name": "Geral",
+      "slug": "geral",
+      "educationLevelId": null,
+      "sortOrder": 11
+    }
+  ],
+  "meta": {
+    "total": 11
+  }
+}

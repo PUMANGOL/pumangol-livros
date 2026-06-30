@@ -1,0 +1,227 @@
+.backoffice-page {
+  padding-bottom: 4rem;
+}
+
+.backoffice-header {
+  background: var(--gray-900);
+  color: var(--white);
+  padding: 3rem 0 2rem;
+  margin-bottom: 2rem;
+}
+
+.backoffice-header .section-title {
+  color: var(--white);
+}
+
+.backoffice-header .section-subtitle {
+  color: var(--gray-400);
+}
+
+.backoffice-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.backoffice-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--brand-primary);
+  margin-bottom: 0.25rem;
+}
+
+.stat-label {
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+  font-weight: 600;
+}
+
+.backoffice-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.backoffice-search {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.backoffice-search svg {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+}
+
+.backoffice-search input {
+  width: 100%;
+  padding-left: 2.75rem;
+}
+
+.backoffice-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.backoffice-filter-group .select {
+  min-width: 180px;
+}
+
+.backoffice-table-wrap {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray-100);
+  overflow: auto;
+  min-height: 32rem;
+  max-height: calc(100vh - 18rem);
+}
+
+.backoffice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.backoffice-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  text-align: left;
+  padding: 1rem 1.25rem;
+  background: var(--gray-50);
+  font-weight: 700;
+  color: var(--gray-600);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--gray-200);
+  white-space: nowrap;
+}
+
+.backoffice-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+}
+
+.backoffice-table tr:last-child td {
+  border-bottom: none;
+}
+
+.backoffice-table tr:hover td {
+  background: var(--pumangol-green-light);
+}
+
+.backoffice-table .mono {
+  font-family: monospace;
+  font-weight: 600;
+  color: var(--brand-primary);
+  font-size: 0.8125rem;
+}
+
+.backoffice-table .price {
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.backoffice-table .date {
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--gray-500);
+}
+
+.contact-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.contact-email {
+  font-size: 0.75rem;
+  color: var(--gray-400);
+}
+
+.backoffice-status-cell {
+  position: relative;
+  overflow: visible;
+  min-width: 11rem;
+}
+
+.backoffice-status-select {
+  min-width: 11rem;
+  max-width: 12rem;
+}
+
+.backoffice-status-cell .select--open {
+  z-index: 20;
+}
+
+.backoffice-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  border: 2px dashed var(--gray-200);
+  color: var(--gray-500);
+}
+
+@media (max-width: 768px) {
+  .backoffice-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .backoffice-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .backoffice-filter-group {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .backoffice-filter-group .select {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .backoffice-table-wrap {
+    min-height: 24rem;
+    max-height: calc(100vh - 22rem);
+  }
+}
+
+@media (max-width: 390px) {
+  .backoffice-table {
+    font-size: 0.8125rem;
+  }
+
+  .backoffice-table th,
+  .backoffice-table td {
+    padding: 0.75rem;
+  }
+}

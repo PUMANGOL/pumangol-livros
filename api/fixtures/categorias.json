@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "id": "cat-academico",
+      "name": "Académico",
+      "slug": "academico",
+      "icon": "📚",
+      "color": "#057143",
+      "description": "Manuais escolares oficiais"
+    },
+    {
+      "id": "cat-desenvolvimento-pessoal",
+      "name": "Desenvolvimento Pessoal",
+      "slug": "desenvolvimento-pessoal",
+      "icon": "🌱",
+      "color": "#14B8A6",
+      "description": "Crescimento e motivação"
+    },
+    {
+      "id": "cat-tecnico",
+      "name": "Técnico",
+      "slug": "tecnico",
+      "icon": "🔧",
+      "color": "#6366F1",
+      "description": "Formação profissional"
+    },
+    {
+      "id": "cat-economia-gestao",
+      "name": "Economia e Gestão",
+      "slug": "economia-e-gestao",
+      "icon": "📊",
+      "color": "#F97316",
+      "description": "Negócios e finanças"
+    },
+    {
+      "id": "cat-literatura",
+      "name": "Literatura",
+      "slug": "literatura",
+      "icon": "📖",
+      "color": "#8B5CF6",
+      "description": "Clássicos e contemporâneos"
+    },
+    {
+      "id": "cat-infantil",
+      "name": "Infantil",
+      "slug": "infantil",
+      "icon": "🎒",
+      "color": "#FB7185",
+      "description": "Primeiros passos na leitura"
+    }
+  ],
+  "meta": {
+    "total": 6
+  }
+}

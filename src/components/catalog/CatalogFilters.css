@@ -1,0 +1,113 @@
+.catalog-filters {
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  border: 1px solid var(--gray-200);
+  margin-bottom: 1.25rem;
+}
+
+.catalog-filters-search {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0 0.875rem;
+  margin-bottom: 0.75rem;
+  background: var(--white);
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.catalog-filters-search:focus-within {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(5, 113, 67, 0.15);
+}
+
+.catalog-filters-search-icon {
+  flex-shrink: 0;
+  color: var(--gray-400);
+}
+
+.catalog-filters-search-input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0.625rem 0;
+  font-size: 0.8125rem;
+  color: var(--gray-800);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.catalog-filters-search-input::placeholder {
+  color: var(--gray-400);
+}
+
+.catalog-filters-row {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+}
+
+.catalog-filters-group {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--gray-500);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.catalog-filters-select {
+  flex: 1;
+  min-width: 120px;
+  max-width: 180px;
+}
+
+.catalog-filters-submit {
+  flex-shrink: 0;
+}
+
+.catalog-filters-count {
+  margin-left: auto;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+@media (max-width: 768px) {
+  .catalog-filters {
+    padding: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .catalog-filters-row {
+    gap: 0.5rem;
+  }
+
+  .catalog-filters-group {
+    flex: 1 1 calc(50% - 0.25rem);
+    min-width: 0;
+  }
+
+  .catalog-filters-select {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+  }
+
+  .catalog-filters-count {
+    width: 100%;
+    margin-left: 0;
+    text-align: right;
+  }
+}
+
+@media (max-width: 390px) {
+  .catalog-filters-group {
+    flex: 1 1 100%;
+  }
+}

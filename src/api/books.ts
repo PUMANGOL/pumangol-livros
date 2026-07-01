@@ -25,9 +25,7 @@ export async function createBook(dto: CreateBookDto, image: File): Promise<ApiBo
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
   formData.append('imagem', image);
 
-  const { data } = await apiClient.post<ApiResponse<ApiBook>>('/book', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
-  });
+  const { data } = await apiClient.post<ApiResponse<ApiBook>>('/book', formData);
 
   return data.data;
 }

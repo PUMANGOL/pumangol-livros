@@ -6,6 +6,10 @@ export function getAuthToken(): string | null {
   return localStorage.getItem(AUTH_TOKEN_KEY);
 }
 
+export function getApiAuthToken(): string | null {
+  return getAuthToken() ?? import.meta.env.api_token ?? null;
+}
+
 export function setAuthToken(token: string): void {
   localStorage.setItem(AUTH_TOKEN_KEY, token);
 }

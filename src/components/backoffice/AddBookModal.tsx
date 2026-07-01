@@ -7,8 +7,6 @@ import { useLevels } from '../../hooks/useLevels';
 import { useSchoolClasses } from '../../hooks/useSchoolClasses';
 import { useCreateBook } from '../../hooks/useCreateBook';
 import { useToast } from '../../context/ToastContext';
-import { compressImage } from '../../utils/compressImage';
-import { getApiErrorMessage } from '../../utils/apiErrors';
 import './AddBookModal.css';
 
 interface AddBookModalProps {
@@ -48,7 +46,6 @@ export function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
   const [form, setForm] = useState<BookFormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof BookFormState, string>>>({});
   const [isDragging, setIsDragging] = useState(false);
-  const [isProcessingImage, setIsProcessingImage] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -85,7 +82,7 @@ export function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
     if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  const handleImageSelect = async (file: File | null) => {
+  const handleImageSelect = (file: File | null) => {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
@@ -93,23 +90,7 @@ export function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
       return;
     }
 
-    setIsProcessingImage(true);
-
-    try {
-      const compressed = await compressImage(file);
-      updateField('image', compressed);
-
-      if (compressed.size < file.size) {
-        showToast('Imagem optimizada para envio.');
-      }
-    } catch (error) {
-      showToast(
-        getApiErrorMessage(error, 'Não foi possível processar a imagem.'),
-        'error',
-      );
-    } finally {
-      setIsProcessingImage(false);
-    }
+    updateField('image', file);
   };
 
   const handleRemoveImage = () => {
@@ -173,11 +154,8 @@ export function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
           showToast('Livro cadastrado com sucesso!');
           handleClose();
         },
-        onError: (error) => {
-          showToast(
-            getApiErrorMessage(error, 'Não foi possível cadastrar o livro. Tente novamente.'),
-            'error',
-          );
+        onError: () => {
+          showToast('Não foi possível cadastrar o livro. Tente novamente.', 'error');
         },
       },
     );
@@ -299,9 +277,7 @@ export function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
               type="file"
               accept="image/*"
               className="add-book-file-input"
-              onChange={(e) => {
-                void handleImageSelect(e.target.files?.[0] ?? null);
-              }}
+              onChange={(e) => handleImageSelect(e.target.files?.[0] ?? null)}
             />
 
             {form.image && previewUrl ? (
@@ -340,36 +316,22 @@ export function AddBookModal({ isOpen, onClose }: AddBookModalProps) {
                 className={[
                   'add-book-upload',
                   isDragging && 'add-book-upload--dragging',
-                  isProcessingImage && 'add-book-upload--processing',
                   errors.image && 'add-book-upload--error',
                 ]
                   .filter(Boolean)
                   .join(' ')}
-                onClick={() => !isProcessingImage && fileInputRef.current?.click()}
+                onClick={() => fileInputRef.current?.click()}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                disabled={isProcessingImage}
               >
                 <span className="add-book-upload-icon" aria-hidden="true">
-                  {isProcessingImage ? (
-                    <span className="add-book-upload-spinner" />
-                  ) : isDragging ? (
-                    <Upload size={28} />
-                  ) : (
-                    <ImagePlus size={28} />
-                  )}
+                  {isDragging ? <Upload size={28} /> : <ImagePlus size={28} />}
                 </span>
                 <span className="add-book-upload-title">
-                  {isProcessingImage
-                    ? 'A optimizar imagem...'
-                    : isDragging
-                      ? 'Largue a imagem aqui'
-                      : 'Clique para escolher a capa'}
+                  {isDragging ? 'Largue a imagem aqui' : 'Clique para escolher a capa'}
                 </span>
-                <span className="add-book-upload-hint">
-                  ou arraste e largue · PNG, JPG ou WEBP · optimizada automaticamente
-                </span>
+                <span className="add-book-upload-hint">ou arraste e largue · PNG, JPG ou WEBP</span>
               </button>
             )}
 

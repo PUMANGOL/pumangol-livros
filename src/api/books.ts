@@ -1,4 +1,4 @@
-import { apiClient } from './client';
+import { apiClient, getApiAuthToken } from './client';
 import type { ApiResponse, ApiBook, BookFindParams, CreateBookDto, Page } from '../types/api';
 import type { Book } from '../types';
 
@@ -25,7 +25,11 @@ export async function createBook(dto: CreateBookDto, image: File): Promise<ApiBo
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
   formData.append('imagem', image);
 
-  const { data } = await apiClient.post<ApiResponse<ApiBook>>('/book', formData);
+  const token = getApiAuthToken();
+
+  const { data } = await apiClient.post<ApiResponse<ApiBook>>('/book', formData, {
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+  });
 
   return data.data;
 }

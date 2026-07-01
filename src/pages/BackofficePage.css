@@ -90,6 +90,12 @@
   min-width: 180px;
 }
 
+.backoffice-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
 .backoffice-table-wrap {
   background: var(--white);
   border-radius: var(--radius-lg);

@@ -1,11 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Download, Search, Filter } from 'lucide-react';
+import { Download, Search, Filter, Plus } from 'lucide-react';
 import { useOrders } from '../hooks/useOrders';
 import { useUpdateOrderStatus } from '../hooks/useUpdateOrderStatus';
 import { getOrderTotal } from '../api/orders';
 import { formatPrice, formatDate, exportOrdersToXlsx } from '../utils/helpers';
 import { Select } from '../components/ui/Select';
 import { OrderItemsModal } from '../components/backoffice/OrderItemsModal';
+import { AddBookModal } from '../components/backoffice/AddBookModal';
 import { useToast } from '../context/ToastContext';
 import {
   orderStatusLabels,
@@ -22,6 +23,7 @@ export function BackofficePage() {
   const [provinceFilter, setProvinceFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<ApiOrderDetail | null>(null);
+  const [isAddBookOpen, setIsAddBookOpen] = useState(false);
 
   const provinces = useMemo(() => {
     const values = orders
@@ -170,6 +172,17 @@ export function BackofficePage() {
               </div>
             </div>
 
+            <div className="backoffice-toolbar">
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => setIsAddBookOpen(true)}
+              >
+                <Plus size={18} />
+                Adicionar livro
+              </button>
+            </div>
+
             {filteredOrders.length > 0 ? (
               <div className="backoffice-table-wrap">
                 <table className="backoffice-table">
@@ -249,6 +262,11 @@ export function BackofficePage() {
         isOpen={selectedOrder !== null}
         onClose={closeModal}
         order={selectedOrder}
+      />
+
+      <AddBookModal
+        isOpen={isAddBookOpen}
+        onClose={() => setIsAddBookOpen(false)}
       />
     </div>
   );

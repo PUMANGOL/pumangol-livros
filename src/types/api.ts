@@ -60,6 +60,16 @@ export interface BookFindParams {
   educationLevelId: number;
 }
 
+export interface CreateBookDto {
+  title: string;
+  categoryId: number;
+  gradeId: number;
+  price: number;
+  author: string;
+  isbn: string;
+  available: boolean;
+}
+
 export interface CreateOrderCustomer {
   fullName: string;
   phone: string;

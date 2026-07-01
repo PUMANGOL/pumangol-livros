@@ -1,5 +1,5 @@
 import { apiClient } from './client';
-import type { ApiResponse, ApiBook, BookFindParams, Page } from '../types/api';
+import type { ApiResponse, ApiBook, BookFindParams, CreateBookDto, Page } from '../types/api';
 import type { Book } from '../types';
 
 function extractBooks(data: ApiBook[] | Page<ApiBook>): ApiBook[] {
@@ -18,6 +18,18 @@ export async function findBooks(params: BookFindParams): Promise<ApiBook[]> {
   });
 
   return extractBooks(data.data);
+}
+
+export async function createBook(dto: CreateBookDto, image: File): Promise<ApiBook> {
+  const formData = new FormData();
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('imagem', image);
+
+  const { data } = await apiClient.post<ApiResponse<ApiBook>>('/book', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+
+  return data.data;
 }
 
 export function mapApiBookToBook(apiBook: ApiBook): Book {

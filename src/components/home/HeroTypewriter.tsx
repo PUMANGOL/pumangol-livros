@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './HeroTypewriter.css';
 
 const MESSAGES: [string, string][] = [
-  ['Bom Regresso', 'às Aulas!'],
+  ['Férias a aprender', 'na Super7'],
   ['Livros Escolares', 'com Qualidade'],
   ['Encomende Já', 'e Levante Fácil'],
 ];

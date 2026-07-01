@@ -124,7 +124,6 @@ export function HomePage() {
 
   return (
     <div className="home">
-      {/* Hero */}
       <section className="hero">
         <div className="container hero-inner">
           <div className="hero-text">
@@ -156,11 +155,25 @@ export function HomePage() {
           </div>
 
           <div className="hero-visual">
-            <img
-              src="/hero.png"
-              alt="Crianças felizes com livros escolares"
-              className="hero-image"
-            />
+            <div className="hero-book-wrap">
+              <img
+                src="/book.png"
+                alt="Livro aberto com ícones de material escolar"
+                className="hero-book"
+              />
+            </div>
+            <div className="hero-logos">
+              <img
+                src="/super7.png"
+                alt="Super 7"
+                className="hero-super7"
+              />
+              <img
+                src="/clube.png"
+                alt="Clube do Livro — A paixão pelo conhecimento"
+                className="hero-clube"
+              />
+            </div>
           </div>
         </div>
       </section>

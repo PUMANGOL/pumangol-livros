@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, ExternalLink } from 'lucide-react';
+import { Mail, MapPin, Phone, ExternalLink, MessageCircle } from 'lucide-react';
 import {
   FacebookIcon,
   InstagramIcon,
@@ -20,6 +20,11 @@ const navLinks = [
   { href: '/#catalogo', label: 'Catálogo' },
   { href: '/#resumo', label: 'Resumo da encomenda' },
 ];
+
+const CONTACT_EMAIL = 'cliente@clubedolivro.co.ao';
+const CONTACT_PHONE_DISPLAY = '926 952 516';
+const CONTACT_PHONE_TEL = '+244926952516';
+const CONTACT_WHATSAPP_URL = 'https://wa.me/244926952516';
 
 export function Footer() {
   const { openOrderModal } = useOrderModal();
@@ -69,12 +74,22 @@ export function Footer() {
             <h3 className="footer-heading">Contatos</h3>
             <ul className="footer-contact-list">
               <li>
-                <Phone size={16} aria-hidden />
-                <a href="tel:+244923190800">923 190 800</a>
+                <Mail size={16} aria-hidden />
+                <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
               </li>
               <li>
-                <Mail size={16} aria-hidden />
-                <a href="mailto:info@pumangol.co.ao">info@pumangol.co.ao</a>
+                <Phone size={16} aria-hidden />
+                <a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE_DISPLAY}</a>
+              </li>
+              <li>
+                <MessageCircle size={16} aria-hidden />
+                <a
+                  href={CONTACT_WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp: {CONTACT_PHONE_DISPLAY}
+                </a>
               </li>
               <li>
                 <ExternalLink size={16} aria-hidden />

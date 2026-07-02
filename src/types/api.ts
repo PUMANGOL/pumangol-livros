@@ -124,3 +124,41 @@ export interface PickupPost {
   id: number;
   name: string;
 }
+
+export interface AuthRole {
+  id: number;
+  name: string;
+}
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  password: string | null;
+  name: string;
+  msisdn: string;
+  status: string;
+  alterPassword: boolean;
+  avatar: string | null;
+  roles: AuthRole[];
+  typeUser: number;
+  perfil: string;
+  active: boolean;
+}
+
+export interface SignInPayload {
+  email: string;
+  password: string;
+}
+
+export interface SignInResponse {
+  token: string;
+  user: AuthUser;
+}
+
+export interface SignUpPayload {
+  email: string;
+  password: string;
+  name: string;
+  msisdn: string;
+  roles: number[];
+}

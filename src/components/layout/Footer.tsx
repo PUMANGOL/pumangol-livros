@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, ExternalLink, MessageCircle } from 'lucide-react';
 import {
   FacebookIcon,
@@ -6,6 +7,7 @@ import {
   YouTubeIcon,
 } from '../icons/SocialIcons';
 import { useOrderModal } from '../../context/OrderModalContext';
+import { useAuth } from '../../context/AuthContext';
 import './Footer.css';
 
 const socialLinks = [
@@ -28,6 +30,7 @@ const CONTACT_WHATSAPP_URL = 'https://wa.me/244926952516';
 
 export function Footer() {
   const { openOrderModal } = useOrderModal();
+  const { isAuthenticated } = useAuth();
 
   const handleNavClick = (href: string) => (e: React.MouseEvent) => {
     const hash = href.split('#')[1];
@@ -63,9 +66,15 @@ export function Footer() {
                 </li>
               ))}
               <li>
-                <button type="button" className="footer-link-btn" onClick={openOrderModal}>
-                  Fazer encomenda
-                </button>
+                {isAuthenticated ? (
+                  <button type="button" className="footer-link-btn" onClick={openOrderModal}>
+                    Fazer encomenda
+                  </button>
+                ) : (
+                  <Link to="/login" className="footer-link-btn">
+                    Fazer encomenda
+                  </Link>
+                )}
               </li>
             </ul>
           </div>

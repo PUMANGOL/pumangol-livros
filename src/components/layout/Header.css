@@ -49,11 +49,16 @@
   gap: 0.625rem;
 }
 
+.header-login,
+.header-signup {
+  padding: 0.5rem 0.875rem;
+}
+
 .header-finalize {
   padding: 0.5rem 1.125rem;
 }
 
-.header-cart {
+.header-icon-btn {
   position: relative;
   display: flex;
   align-items: center;
@@ -63,13 +68,20 @@
   border-radius: 50%;
   color: var(--gray-700);
   border: 1.5px solid var(--gray-200);
+  background: var(--white);
   transition: all 0.2s;
+  cursor: pointer;
 }
 
-.header-cart:hover {
+.header-icon-btn:hover,
+.header-icon-btn--active {
   border-color: var(--brand-primary);
   color: var(--brand-primary);
   background: var(--brand-primary-light);
+}
+
+.header-cart {
+  text-decoration: none;
 }
 
 .header-cart-badge {
@@ -89,6 +101,70 @@
   justify-content: center;
 }
 
+.header-user-menu {
+  position: relative;
+}
+
+.header-user-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 15rem;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 0.75rem;
+  z-index: 110;
+}
+
+.header-user-dropdown-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.25rem 0.375rem;
+}
+
+.header-user-dropdown-info strong {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.3;
+}
+
+.header-user-dropdown-info span {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  word-break: break-word;
+}
+
+.header-user-dropdown-divider {
+  height: 1px;
+  margin: 0.625rem 0;
+  background: var(--gray-200);
+}
+
+.header-user-dropdown-logout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #dc2626;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.header-user-dropdown-logout:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
 .header-menu-btn {
   display: none;
   align-items: center;
@@ -102,6 +178,22 @@
 @media (max-width: 900px) {
   .header-finalize-text {
     display: none;
+  }
+
+  .header-login-text {
+    display: none;
+  }
+
+  .header-signup-text {
+    display: none;
+  }
+
+  .header-login,
+  .header-signup {
+    padding: 0.5rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
   }
 
   .header-finalize {

@@ -1,12 +1,15 @@
-import { Minus, Plus, Trash2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { LogIn, Minus, Plus, Trash2, UserPlus } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useOrderModal } from '../../context/OrderModalContext';
+import { useAuth } from '../../context/AuthContext';
 import { formatPrice } from '../../utils/helpers';
 import './OrderSummaryPanel.css';
 
 export function OrderSummaryPanel() {
   const { items, updateQuantity, removeFromCart, total, itemCount } = useCart();
   const { openOrderModal } = useOrderModal();
+  const { isAuthenticated } = useAuth();
 
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -86,14 +89,27 @@ export function OrderSummaryPanel() {
           >
             Continuar a escolher
           </button>
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            disabled={items.length === 0}
-            onClick={openOrderModal}
-          >
-            Avançar para encomenda
-          </button>
+          {isAuthenticated ? (
+            <button
+              type="button"
+              className="btn btn-primary btn-block"
+              disabled={items.length === 0}
+              onClick={openOrderModal}
+            >
+              Avançar para encomenda
+            </button>
+          ) : (
+            <>
+              <Link to="/cadastro" className="btn btn-primary btn-block">
+                <UserPlus size={16} />
+                Criar conta
+              </Link>
+              <Link to="/login" className="btn btn-outline btn-block">
+                <LogIn size={16} />
+                Entrar
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </aside>

@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
-import { BookOpen, Clock, MapPin, Package, Shield, ShoppingCart, Wallet } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { BookOpen, Clock, LogIn, MapPin, Package, Shield, ShoppingCart, UserPlus, Wallet } from 'lucide-react';
 import { CatalogFilters } from '../components/catalog/CatalogFilters';
 import { BookCard } from '../components/catalog/BookCard';
 import { OrderSummaryPanel } from '../components/order/OrderSummaryPanel';
 import { HeroTypewriter } from '../components/home/HeroTypewriter';
 import { useOrderModal } from '../context/OrderModalContext';
+import { useAuth } from '../context/AuthContext';
 import { useCategories } from '../hooks/useCategories';
 import { useLevels } from '../hooks/useLevels';
 import { useSchoolClasses } from '../hooks/useSchoolClasses';
@@ -51,6 +53,7 @@ const defaultBookFilters: BookFindParams = {
 
 export function HomePage() {
   const { openOrderModal } = useOrderModal();
+  const { isAuthenticated } = useAuth();
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const [grade, setGrade] = useState('');
@@ -138,10 +141,23 @@ export function HomePage() {
                 <BookOpen size={18} />
                 Ver Catálogo
               </button>
-              <button type="button" className="btn btn-yellow btn-lg" onClick={openOrderModal}>
-                <ShoppingCart size={18} />
-                Encomendar agora
-              </button>
+              {isAuthenticated ? (
+                <button type="button" className="btn btn-yellow btn-lg" onClick={openOrderModal}>
+                  <ShoppingCart size={18} />
+                  Encomendar agora
+                </button>
+              ) : (
+                <>
+                  <Link to="/cadastro" className="btn btn-yellow btn-lg">
+                    <UserPlus size={18} />
+                    Criar conta
+                  </Link>
+                  <Link to="/login" className="btn btn-outline btn-lg hero-login-btn">
+                    <LogIn size={18} />
+                    Entrar
+                  </Link>
+                </>
+              )}
             </div>
 
             <div className="hero-features">

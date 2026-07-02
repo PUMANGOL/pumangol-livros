@@ -73,8 +73,6 @@ export function BackofficePage() {
     );
   };
 
-  const closeModal = () => setSelectedOrder(null);
-
   const handleStatusChange = (order: ApiOrderDetail, status: string) => {
     if (!status || status === order.status) return;
 
@@ -93,6 +91,8 @@ export function BackofficePage() {
       },
     );
   };
+
+  const closeModal = () => setSelectedOrder(null);
 
   return (
     <div className="backoffice-page">

@@ -4,6 +4,7 @@ import { Modal } from '../ui/Modal';
 import { getOrderTotal } from '../../api/orders';
 import { useBooks } from '../../hooks/useBooks';
 import { formatPrice, formatDate } from '../../utils/helpers';
+import { BookCover } from '../catalog/BookCover';
 import { orderStatusLabels, orderStatusColors } from '../../constants/orderStatus';
 import type { ApiOrderDetail } from '../../types/api';
 import './OrderItemsModal.css';
@@ -75,22 +76,14 @@ export function OrderItemsModal({ isOpen, onClose, order }: OrderItemsModalProps
           <ul className="order-items-modal-list">
             {order.items.map((item) => {
               const book = bookById.get(item.bookId);
-              const coverImage = book?.coverImage;
 
               return (
                 <li key={item.id} className="order-items-modal-item">
-                  {coverImage ? (
-                    <img
-                      src={coverImage}
-                      alt={item.book}
-                      className="order-items-modal-thumb"
-                    />
-                  ) : (
-                    <div
-                      className="order-items-modal-thumb order-items-modal-thumb-placeholder"
-                      aria-hidden="true"
-                    />
-                  )}
+                  <BookCover
+                    title={book?.title ?? item.book}
+                    src={book?.coverImage}
+                    className="order-items-modal-thumb"
+                  />
                   <div className="order-items-modal-info">
                     <h4>{item.book}</h4>
                     {book && (

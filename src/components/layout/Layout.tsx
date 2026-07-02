@@ -5,11 +5,12 @@ import { OrderModalProvider } from '../../context/OrderModalContext';
 
 export function Layout() {
   const { pathname } = useLocation();
-  const hideFooter = pathname.startsWith('/backoffice');
+  const isBackoffice = pathname.startsWith('/backoffice');
+  const hideFooter = isBackoffice;
 
   return (
     <OrderModalProvider>
-      <Header />
+      {!isBackoffice && <Header />}
       <main style={{ flex: 1 }}>
         <Outlet />
       </main>

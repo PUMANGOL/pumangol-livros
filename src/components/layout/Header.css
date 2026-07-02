@@ -144,6 +144,28 @@
   background: var(--gray-200);
 }
 
+.header-user-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--gray-800);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.header-user-dropdown-item:hover {
+  background: var(--brand-primary-light);
+  color: var(--brand-primary);
+}
+
 .header-user-dropdown-logout {
   display: flex;
   align-items: center;

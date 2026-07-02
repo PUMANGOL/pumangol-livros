@@ -3,18 +3,26 @@
 }
 
 .backoffice-header {
-  background: var(--gray-900);
-  color: var(--white);
-  padding: 3rem 0 2rem;
-  margin-bottom: 2rem;
+  padding: 1.5rem 0 0.5rem;
+  margin-bottom: 1rem;
+  background: transparent;
+  color: inherit;
+}
+
+.backoffice-header-inner {
+  padding: 0 1.5rem;
+}
+
+.backoffice-body {
+  padding: 0 1.5rem;
 }
 
 .backoffice-header .section-title {
-  color: var(--white);
+  color: var(--gray-900);
 }
 
 .backoffice-header .section-subtitle {
-  color: var(--gray-400);
+  color: var(--gray-500);
 }
 
 .backoffice-header-row {
@@ -142,6 +150,10 @@
   background: var(--pumangol-green-light);
 }
 
+.backoffice-table--books tr:hover td {
+  background: transparent;
+}
+
 .backoffice-table .mono {
   font-family: monospace;
   font-weight: 600;
@@ -193,6 +205,49 @@
   border-radius: var(--radius-lg);
   border: 2px dashed var(--gray-200);
   color: var(--gray-500);
+}
+
+.backoffice-book-thumb {
+  width: 2.5rem;
+  height: 3.25rem;
+  border-radius: 4px;
+}
+
+.backoffice-book-title {
+  font-weight: 600;
+  color: var(--gray-900);
+  line-height: 1.3;
+}
+
+.backoffice-book-isbn,
+.backoffice-book-meta {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-top: 0.125rem;
+}
+
+.backoffice-book-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: #dc2626;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.backoffice-book-delete:hover:not(:disabled) {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.backoffice-book-delete:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

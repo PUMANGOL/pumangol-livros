@@ -6,6 +6,7 @@ import { useToast } from '../context/ToastContext';
 import { usePickupPosts } from '../hooks/usePickupPosts';
 import { formatPrice } from '../utils/helpers';
 import { Select } from '../components/ui/Select';
+import { BookCover } from '../components/catalog/BookCover';
 import type { CustomerData } from '../types';
 import './OrderPage.css';
 
@@ -219,9 +220,9 @@ export function OrderPage() {
           <ul className="order-items">
             {items.map(({ book, quantity }) => (
               <li key={book.id} className="order-item">
-                <img
+                <BookCover
+                  title={book.title}
                   src={book.coverImage}
-                  alt={book.title}
                   className="order-item-cover"
                 />
                 <div className="order-item-info">

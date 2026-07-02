@@ -30,6 +30,10 @@ export async function createBook(dto: CreateBookDto, image: File): Promise<ApiBo
   return data.data;
 }
 
+export async function deleteBook(id: number): Promise<void> {
+  await apiClient.delete(`/book/${id}`);
+}
+
 export function mapApiBookToBook(apiBook: ApiBook): Book {
   return {
     id: String(apiBook.id),

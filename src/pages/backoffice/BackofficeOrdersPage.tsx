@@ -1,21 +1,19 @@
 import { useState, useMemo } from 'react';
-import { Download, Search, Filter, Plus } from 'lucide-react';
-import { useOrders } from '../hooks/useOrders';
-import { useUpdateOrderStatus } from '../hooks/useUpdateOrderStatus';
-import { getOrderTotal } from '../api/orders';
-import { formatPrice, formatDate, exportOrdersToXlsx } from '../utils/helpers';
-import { Select } from '../components/ui/Select';
-import { OrderItemsModal } from '../components/backoffice/OrderItemsModal';
-import { AddBookModal } from '../components/backoffice/AddBookModal';
-import { useToast } from '../context/ToastContext';
+import { Download, Search, Filter } from 'lucide-react';
+import { useOrders } from '../../hooks/useOrders';
+import { useUpdateOrderStatus } from '../../hooks/useUpdateOrderStatus';
+import { getOrderTotal } from '../../api/orders';
+import { formatPrice, formatDate, exportOrdersToXlsx } from '../../utils/helpers';
+import { Select } from '../../components/ui/Select';
+import { OrderItemsModal } from '../../components/backoffice/OrderItemsModal';
+import { useToast } from '../../context/ToastContext';
 import {
   orderStatusLabels,
   orderStatusOptions,
-} from '../constants/orderStatus';
-import type { ApiOrderDetail } from '../types/api';
-import './BackofficePage.css';
+} from '../../constants/orderStatus';
+import type { ApiOrderDetail } from '../../types/api';
 
-export function BackofficePage() {
+export function BackofficeOrdersPage() {
   const { data: orders = [], isLoading } = useOrders();
   const { mutate: updateStatus, isPending: isUpdatingStatus, variables } = useUpdateOrderStatus();
   const { showToast } = useToast();
@@ -23,7 +21,6 @@ export function BackofficePage() {
   const [provinceFilter, setProvinceFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<ApiOrderDetail | null>(null);
-  const [isAddBookOpen, setIsAddBookOpen] = useState(false);
 
   const provinces = useMemo(() => {
     const values = orders
@@ -97,10 +94,10 @@ export function BackofficePage() {
   return (
     <div className="backoffice-page">
       <div className="backoffice-header">
-        <div className="container">
+        <div className="backoffice-header-inner">
           <div className="backoffice-header-row">
             <div>
-              <h1 className="section-title">Backoffice — Encomendas</h1>
+              <h1 className="section-title">Encomendas</h1>
               <p className="section-subtitle">
                 Gestão de pedidos da campanha Bom Regresso às Aulas 2026.
               </p>
@@ -117,8 +114,7 @@ export function BackofficePage() {
         </div>
       </div>
 
-      <div className="container backoffice-body">
-
+      <div className="backoffice-body">
         {isLoading ? (
           <div className="backoffice-empty">
             <p>A carregar encomendas...</p>
@@ -170,17 +166,6 @@ export function BackofficePage() {
                   options={statusOptions}
                 />
               </div>
-            </div>
-
-            <div className="backoffice-toolbar">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => setIsAddBookOpen(true)}
-              >
-                <Plus size={18} />
-                Adicionar livro
-              </button>
             </div>
 
             {filteredOrders.length > 0 ? (
@@ -262,11 +247,6 @@ export function BackofficePage() {
         isOpen={selectedOrder !== null}
         onClose={closeModal}
         order={selectedOrder}
-      />
-
-      <AddBookModal
-        isOpen={isAddBookOpen}
-        onClose={() => setIsAddBookOpen(false)}
       />
     </div>
   );

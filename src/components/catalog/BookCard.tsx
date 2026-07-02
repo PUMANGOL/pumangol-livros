@@ -2,6 +2,7 @@ import { ShoppingCart } from 'lucide-react';
 import type { Book } from '../../types';
 import { formatPrice } from '../../utils/helpers';
 import { useCart } from '../../context/CartContext';
+import { BookCover } from './BookCover';
 import './BookCard.css';
 
 interface BookCardProps {
@@ -15,7 +16,11 @@ export function BookCard({ book }: BookCardProps) {
     <article className="book-card">
 
       <div className="book-card-cover">
-        <img src={book.coverImage} alt={book.title} className="book-card-cover-img" />
+        <BookCover
+          title={book.title}
+          src={book.coverImage}
+          className="book-card-cover-inner"
+        />
       </div>
 
       <div className="book-card-body">

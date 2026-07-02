@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { useOrderModal } from '../../context/OrderModalContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatPrice } from '../../utils/helpers';
+import { BookCover } from '../catalog/BookCover';
 import './OrderSummaryPanel.css';
 
 export function OrderSummaryPanel() {
@@ -28,9 +29,9 @@ export function OrderSummaryPanel() {
           <ul className="order-summary-list">
             {items.map(({ book, quantity }) => (
               <li key={book.id} className="order-summary-item">
-                <img
+                <BookCover
+                  title={book.title}
                   src={book.coverImage}
-                  alt={book.title}
                   className="order-summary-thumb"
                 />
                 <div className="order-summary-info">

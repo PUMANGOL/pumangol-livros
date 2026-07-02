@@ -1,0 +1,69 @@
+.book-cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--gray-100);
+}
+
+.book-cover__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-cover--fallback {
+  background: var(--brand-primary-light);
+}
+
+.book-cover-initial {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--brand-primary);
+  line-height: 1;
+  user-select: none;
+}
+
+.book-cover.book-card-cover-inner {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+.book-cover.book-card-cover-inner .book-cover__img {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.book-cover.book-card-cover-inner.book-cover--fallback {
+  width: 4.5rem;
+  background: var(--brand-primary-light);
+  border-radius: 4px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.book-cover.order-summary-thumb,
+.book-cover.order-items-modal-thumb,
+.book-cover.backoffice-book-thumb {
+  flex-shrink: 0;
+}
+
+.book-cover.order-summary-thumb.book-cover--fallback .book-cover-initial,
+.book-cover.order-items-modal-thumb.book-cover--fallback .book-cover-initial,
+.book-cover.backoffice-book-thumb.book-cover--fallback .book-cover-initial {
+  font-size: 1rem;
+}
+
+.book-cover.order-item-cover.book-cover--fallback .book-cover-initial {
+  font-size: 1.125rem;
+}

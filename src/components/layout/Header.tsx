@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LogIn, LogOut, Menu, ShoppingBag, ShoppingCart, User, X } from 'lucide-react';
+import { LayoutDashboard, LogIn, LogOut, Menu, ShoppingBag, ShoppingCart, User, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useOrderModal } from '../../context/OrderModalContext';
@@ -19,7 +19,7 @@ export function Header() {
   const isBackoffice = pathname.startsWith('/backoffice');
   const { itemCount } = useCart();
   const { openOrderModal } = useOrderModal();
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout, canAccessBackoffice } = useAuth();
   const { showToast } = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -156,6 +156,20 @@ export function Header() {
                     <span>{user.email}</span>
                   </div>
                   <div className="header-user-dropdown-divider" role="separator" />
+                  {canAccessBackoffice && (
+                    <Link
+                      to="/backoffice"
+                      className="header-user-dropdown-item"
+                      role="menuitem"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <LayoutDashboard size={16} />
+                      Painel Admin
+                    </Link>
+                  )}
+                  {canAccessBackoffice && (
+                    <div className="header-user-dropdown-divider" role="separator" />
+                  )}
                   <button
                     type="button"
                     className="header-user-dropdown-logout"

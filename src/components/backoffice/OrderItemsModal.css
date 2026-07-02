@@ -120,12 +120,6 @@
   width: 44px;
   height: 56px;
   border-radius: 4px;
-  object-fit: cover;
-  background: var(--gray-100);
-}
-
-.order-items-modal-thumb-placeholder {
-  border: 1px dashed var(--gray-200);
 }
 
 .order-items-modal-info h4 {

@@ -44,16 +44,21 @@ export interface SchoolClass {
   slug: string;
 }
 
+export interface ApiBookGrade {
+  id: number;
+  name: string;
+  slug: string | null;
+  educationLevelId: string;
+  sortOrder: number | null;
+}
+
 export interface ApiBook {
   id: number;
   title: string;
   categoryId: number;
   category: string;
-  gradeId: number;
-  grade: string;
+  grades: ApiBookGrade[];
   quantity: number | null;
-  educationLevelId: number;
-  educationLevel: string;
   price: number;
   coverImage: string;
   author: string;

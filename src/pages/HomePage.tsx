@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { BookOpen, Clock, MapPin, Package, Shield, ShoppingCart, Wallet } from 'lucide-react';
 import { CatalogFilters } from '../components/catalog/CatalogFilters';
 import { BookCard } from '../components/catalog/BookCard';
+import { BookDetailModal } from '../components/catalog/BookDetailModal';
 import { OrderSummaryPanel } from '../components/order/OrderSummaryPanel';
 import { HeroTypewriter } from '../components/home/HeroTypewriter';
 import { useOrderModal } from '../context/OrderModalContext';
@@ -9,10 +10,12 @@ import { useAuth } from '../context/AuthContext';
 import { useCategories } from '../hooks/useCategories';
 import { useLevels } from '../hooks/useLevels';
 import { useSchoolClasses } from '../hooks/useSchoolClasses';
-import { useBooks } from '../hooks/useBooks';
-import { useFindBooks } from '../hooks/useFindBooks';
+import { useBooksPage } from '../hooks/useBooks';
+import { useFindBooksPage } from '../hooks/useFindBooks';
 import { mapApiBookToBook } from '../api/books';
+import { Pagination } from '../components/ui/Pagination';
 import type { BookFindParams } from '../types/api';
+import type { Book } from '../types';
 import './HomePage.css';
 
 const heroFeatures = [
@@ -59,6 +62,8 @@ export function HomePage() {
   const [educationLevel, setEducationLevel] = useState('');
   const [bookFilters, setBookFilters] = useState<BookFindParams>(defaultBookFilters);
   const [hasFiltered, setHasFiltered] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [page, setPage] = useState(0);
 
   const { data: categories = [], isLoading } = useCategories();
   const { data: levels = [], isLoading: isLevelsLoading } = useLevels();
@@ -70,19 +75,23 @@ export function HomePage() {
   } = useSchoolClasses(educationLevelId);
 
   const {
-    data: allApiBooks = [],
+    data: allBooksPage,
     isLoading: isAllBooksLoading,
-  } = useBooks();
+    isFetching: isAllBooksFetching,
+  } = useBooksPage(page);
 
   const {
-    data: filteredApiBooks = [],
+    data: filteredBooksPage,
     isLoading: isFindBooksLoading,
     isFetching: isFindBooksFetching,
-  } = useFindBooks(bookFilters, hasFiltered);
+  } = useFindBooksPage(bookFilters, page, hasFiltered);
 
-  const apiBooks = hasFiltered ? filteredApiBooks : allApiBooks;
+  const booksPage = hasFiltered ? filteredBooksPage : allBooksPage;
+  const apiBooks = booksPage?.content ?? [];
+  const totalPages = booksPage?.totalPages ?? 1;
+  const totalElements = booksPage?.totalElements ?? 0;
   const isBooksLoading = hasFiltered ? isFindBooksLoading : isAllBooksLoading;
-  const isBooksFetching = hasFiltered ? isFindBooksFetching : false;
+  const isBooksFetching = hasFiltered ? isFindBooksFetching : isAllBooksFetching;
 
   const books = useMemo(() => {
     if (!Array.isArray(apiBooks)) return [];
@@ -118,6 +127,12 @@ export function HomePage() {
       educationLevelId: educationLevel ? Number(educationLevel) : 0,
     });
     setHasFiltered(true);
+    setPage(0);
+  };
+
+  const handlePageChange = (nextPage: number) => {
+    setPage(nextPage);
+    scrollTo('#catalogo');
   };
 
   const scrollTo = (id: string) => {
@@ -225,7 +240,7 @@ export function HomePage() {
                 onGradeChange={setGrade}
                 educationLevel={educationLevel}
                 onEducationLevelChange={handleEducationLevelChange}
-                resultCount={filteredBooks.length}
+                resultCount={search.trim() ? filteredBooks.length : totalElements}
                 categories={categories}
                 categoriesLoading={isLoading}
                 levels={levels}
@@ -242,11 +257,23 @@ export function HomePage() {
                   <p>A carregar livros...</p>
                 </div>
               ) : filteredBooks.length > 0 ? (
-                <div className="catalog-grid">
-                  {filteredBooks.map((book) => (
-                    <BookCard key={book.id} book={book} />
-                  ))}
-                </div>
+                <>
+                  <div className="catalog-grid">
+                    {filteredBooks.map((book) => (
+                      <BookCard
+                        key={book.id}
+                        book={book}
+                        onSelect={setSelectedBook}
+                      />
+                    ))}
+                  </div>
+                  <Pagination
+                    page={page}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    disabled={isBooksLoading || isBooksFetching}
+                  />
+                </>
               ) : (
                 <div className="catalog-empty">
                   <span>📚</span>
@@ -261,6 +288,11 @@ export function HomePage() {
           </div>
         </div>
       </section>
+
+      <BookDetailModal
+        book={selectedBook}
+        onClose={() => setSelectedBook(null)}
+      />
     </div>
   );
 }

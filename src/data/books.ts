@@ -1,4 +1,4 @@
-import type { Book } from '../types';
+import type { Book, BookGrade } from '../types';
 
 export const bookCoverImages = [
   '/livro1.jpg',
@@ -6,7 +6,26 @@ export const bookCoverImages = [
   '/livro3.jpg',
 ] as const;
 
-type BookInput = Omit<Book, 'coverImage'>;
+type BookInput = {
+  id: string;
+  title: string;
+  category: string;
+  grade: string;
+  educationLevel: string;
+  price: number;
+  author: string;
+  isbn: string;
+};
+
+function toBookGrade(id: number, name: string, educationLevelId: string): BookGrade {
+  return {
+    id,
+    name,
+    slug: null,
+    educationLevelId,
+    sortOrder: null,
+  };
+}
 
 const bookEntries: BookInput[] = [
   {
@@ -192,7 +211,13 @@ const bookEntries: BookInput[] = [
 ];
 
 export const books: Book[] = bookEntries.map((book, index) => ({
-  ...book,
+  id: book.id,
+  title: book.title,
+  category: book.category,
+  grades: [toBookGrade(Number(book.id), book.grade, book.educationLevel)],
+  price: book.price,
+  author: book.author,
+  isbn: book.isbn,
   coverImage: bookCoverImages[index % bookCoverImages.length],
 }));
 

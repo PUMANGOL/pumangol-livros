@@ -8,16 +8,24 @@ export type BookCategory =
 
 export type EducationLevel = 'Primário' | 'Secundário I Ciclo' | 'Secundário II Ciclo' | 'Técnico Profissional';
 
+export interface BookGrade {
+  id: number;
+  name: string;
+  slug: string | null;
+  educationLevelId: string;
+  sortOrder: number | null;
+}
+
 export interface Book {
   id: string;
   title: string;
-  category: BookCategory;
-  grade: string;
-  educationLevel: EducationLevel;
+  category: string;
+  grades: BookGrade[];
   price: number;
   coverImage: string;
   author: string;
   isbn: string;
+  description?: string | null;
 }
 
 export interface CartItem {

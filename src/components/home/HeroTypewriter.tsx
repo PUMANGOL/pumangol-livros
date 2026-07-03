@@ -3,8 +3,8 @@ import './HeroTypewriter.css';
 
 const MESSAGES: [string, string][] = [
   ['Férias a aprender', 'na Super7'],
-  ['Livros Escolares', 'com Qualidade'],
-  ['Encomende Já', 'e Levante Fácil'],
+  ['Livros já disponíveis', 'nas lojas aderentes'],
+  ['Explore o catálogo online', 'e encontre a loja mais próxima'],
 ];
 
 const TYPE_DELAY = 55;

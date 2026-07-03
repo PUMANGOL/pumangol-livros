@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { usePickupPosts } from '../hooks/usePickupPosts';
 import { formatPrice } from '../utils/helpers';
+import { formatBookGradeNames } from '../utils/bookGrades';
 import { Select } from '../components/ui/Select';
 import { BookCover } from '../components/catalog/BookCover';
 import type { CustomerData } from '../types';
@@ -227,7 +228,7 @@ export function OrderPage() {
                 />
                 <div className="order-item-info">
                   <h4>{book.title}</h4>
-                  <p>{book.grade} · {book.category}</p>
+                  <p>{formatBookGradeNames(book.grades)} · {book.category}</p>
                   <span className="order-item-price">{formatPrice(book.price)}</span>
                 </div>
                 <div className="order-item-actions">

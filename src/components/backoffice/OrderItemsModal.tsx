@@ -2,8 +2,9 @@ import { useMemo } from 'react';
 import { MapPin, User } from 'lucide-react';
 import { Modal } from '../ui/Modal';
 import { getOrderTotal } from '../../api/orders';
-import { useBooks } from '../../hooks/useBooks';
+import { useBooksLookup } from '../../hooks/useBooks';
 import { formatPrice, formatDate } from '../../utils/helpers';
+import { formatBookGradeNames } from '../../utils/bookGrades';
 import { BookCover } from '../catalog/BookCover';
 import { orderStatusLabels, orderStatusColors } from '../../constants/orderStatus';
 import type { ApiOrderDetail } from '../../types/api';
@@ -16,7 +17,7 @@ interface OrderItemsModalProps {
 }
 
 export function OrderItemsModal({ isOpen, onClose, order }: OrderItemsModalProps) {
-  const { data: books = [] } = useBooks();
+  const { data: books = [] } = useBooksLookup();
 
   const bookById = useMemo(() => {
     const map = new Map(books.map((book) => [book.id, book]));
@@ -88,7 +89,7 @@ export function OrderItemsModal({ isOpen, onClose, order }: OrderItemsModalProps
                     <h4>{item.book}</h4>
                     {book && (
                       <p>
-                        {book.grade} · {book.educationLevel}
+                        {formatBookGradeNames(book.grades)} · {book.category}
                       </p>
                     )}
                     <span className="order-items-modal-unit-price">

@@ -1,9 +1,9 @@
-import { Link } from 'react-router-dom';
-import { LogIn, Minus, Plus, Trash2, UserPlus } from 'lucide-react';
+import { Minus, Plus, Trash2 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useOrderModal } from '../../context/OrderModalContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatPrice } from '../../utils/helpers';
+import { formatBookGradeNames } from '../../utils/bookGrades';
 import { BookCover } from '../catalog/BookCover';
 import './OrderSummaryPanel.css';
 
@@ -36,7 +36,7 @@ export function OrderSummaryPanel() {
                 />
                 <div className="order-summary-info">
                   <h4>{book.title}</h4>
-                  <p>{book.grade} · {book.educationLevel}</p>
+                  <p>{book.category} · {formatBookGradeNames(book.grades)}</p>
                   <span className="order-summary-price">{formatPrice(book.price)}</span>
                 </div>
                 <div className="order-summary-controls">
@@ -90,7 +90,7 @@ export function OrderSummaryPanel() {
           >
             Continuar a escolher
           </button>
-          {isAuthenticated ? (
+          {isAuthenticated && (
             <button
               type="button"
               className="btn btn-primary btn-block"
@@ -99,17 +99,6 @@ export function OrderSummaryPanel() {
             >
               Avançar para encomenda
             </button>
-          ) : (
-            <>
-              <Link to="/cadastro" className="btn btn-primary btn-block">
-                <UserPlus size={16} />
-                Criar conta
-              </Link>
-              <Link to="/login" className="btn btn-outline btn-block">
-                <LogIn size={16} />
-                Entrar
-              </Link>
-            </>
           )}
         </div>
       </div>

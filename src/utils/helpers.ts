@@ -9,6 +9,17 @@ export function formatPrice(value: number): string {
   }).format(value);
 }
 
+export function getBookCoverImageUrl(
+  src: string | null | undefined,
+  width = 500,
+  height = 500,
+): string | undefined {
+  if (!src?.trim()) return undefined;
+
+  const separator = src.includes('?') ? '&' : '?';
+  return `${src}${separator}width=${width}&height=${height}`;
+}
+
 export function formatDate(iso: string): string {
   return new Intl.DateTimeFormat('pt-AO', {
     day: '2-digit',

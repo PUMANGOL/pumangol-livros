@@ -9,9 +9,10 @@ interface ModalProps {
   title: string;
   children: ReactNode;
   maxWidth?: string;
+  bodyClassName?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children, maxWidth }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, maxWidth, bodyClassName }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth }: ModalProps
             <X size={20} />
           </button>
         </div>
-        <div className="modal-body">{children}</div>
+        <div className={['modal-body', bodyClassName].filter(Boolean).join(' ')}>{children}</div>
       </div>
     </div>,
     document.body,

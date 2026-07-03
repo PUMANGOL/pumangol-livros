@@ -62,6 +62,13 @@
   overscroll-behavior: contain;
 }
 
+.modal-body--split {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
 @keyframes modalFadeIn {
   from {
     opacity: 0;

@@ -15,6 +15,16 @@
   border-color: var(--gray-300);
 }
 
+.book-card--interactive {
+  cursor: pointer;
+}
+
+.book-card--interactive:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(5, 113, 67, 0.2);
+  border-color: var(--brand-primary);
+}
+
 .book-card-category {
   position: absolute;
   top: 8px;

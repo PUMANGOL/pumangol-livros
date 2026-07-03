@@ -1,5 +1,5 @@
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { BookOpen, Package } from 'lucide-react';
+import { BookOpen, FolderOpen, Package } from 'lucide-react';
 import { BackofficeUserMenu } from './BackofficeUserMenu';
 import './BackofficeLayout.css';
 import '../../pages/BackofficePage.css';
@@ -7,6 +7,7 @@ import '../../pages/BackofficePage.css';
 const navItems = [
   { to: '/backoffice/encomendas', label: 'Encomendas', icon: Package },
   { to: '/backoffice/livros', label: 'Livros', icon: BookOpen },
+  { to: '/backoffice/categorias', label: 'Categorias', icon: FolderOpen },
 ];
 
 export function BackofficeLayout() {

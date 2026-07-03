@@ -154,6 +154,26 @@
   background: transparent;
 }
 
+.backoffice-table--categories tr:hover td {
+  background: transparent;
+}
+
+.backoffice-category-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--gray-600);
+}
+
+.backoffice-category-color-swatch {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
 .backoffice-table .mono {
   font-family: monospace;
   font-weight: 600;

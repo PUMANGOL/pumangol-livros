@@ -11,6 +11,8 @@ import { ConfirmationPage } from './pages/ConfirmationPage';
 import { BackofficeLayout } from './components/backoffice/BackofficeLayout';
 import { BackofficeOrdersPage } from './pages/backoffice/BackofficeOrdersPage';
 import { BackofficeBooksPage } from './pages/backoffice/BackofficeBooksPage';
+import { BackofficeAddBookPage } from './pages/backoffice/BackofficeAddBookPage';
+import { BackofficeCategoriesPage } from './pages/backoffice/BackofficeCategoriesPage';
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
                   <Route index element={<Navigate to="encomendas" replace />} />
                   <Route path="encomendas" element={<BackofficeOrdersPage />} />
                   <Route path="livros" element={<BackofficeBooksPage />} />
+                  <Route path="livros/novo" element={<BackofficeAddBookPage />} />
+                  <Route path="categorias" element={<BackofficeCategoriesPage />} />
                 </Route>
               </Route>
             </Routes>

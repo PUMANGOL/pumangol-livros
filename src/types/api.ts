@@ -24,6 +24,14 @@ export interface Category {
   description: string;
 }
 
+export interface CreateCategoryDto {
+  name: string;
+  slug: string;
+  icon: string;
+  color: string;
+  description: string;
+}
+
 export interface Level {
   id: number;
   name: string;
@@ -63,7 +71,7 @@ export interface BookFindParams {
 export interface CreateBookDto {
   title: string;
   categoryId: number;
-  gradeId: number;
+  grades: number[];
   price: number;
   author: string;
   isbn: string;

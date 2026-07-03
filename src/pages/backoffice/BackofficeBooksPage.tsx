@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Plus, Search, Trash2 } from 'lucide-react';
 import { useBooks } from '../../hooks/useBooks';
 import { useDeleteBook } from '../../hooks/useDeleteBook';
 import { formatPrice } from '../../utils/helpers';
-import { AddBookModal } from '../../components/backoffice/AddBookModal';
 import { BookCover } from '../../components/catalog/BookCover';
 import { ConfirmModal } from '../../components/ui/ConfirmModal';
 import { useToast } from '../../context/ToastContext';
@@ -14,7 +14,6 @@ export function BackofficeBooksPage() {
   const { mutate: deleteBook, isPending: isDeleting, variables: deletingId } = useDeleteBook();
   const { showToast } = useToast();
   const [search, setSearch] = useState('');
-  const [isAddBookOpen, setIsAddBookOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState<ApiBook | null>(null);
 
   const filteredBooks = useMemo(() => {
@@ -64,14 +63,13 @@ export function BackofficeBooksPage() {
                 Catálogo de livros disponíveis na campanha escolar.
               </p>
             </div>
-            <button
-              type="button"
+            <Link
+              to="/backoffice/livros/novo"
               className="btn btn-primary"
-              onClick={() => setIsAddBookOpen(true)}
             >
               <Plus size={18} />
               Adicionar livro
-            </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -186,11 +184,6 @@ export function BackofficeBooksPage() {
           </>
         )}
       </div>
-
-      <AddBookModal
-        isOpen={isAddBookOpen}
-        onClose={() => setIsAddBookOpen(false)}
-      />
 
       <ConfirmModal
         isOpen={bookToDelete !== null}

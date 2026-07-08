@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogIn, LogOut, Menu, ShoppingBag, User, X } from 'lucide-react';
+import { LayoutDashboard, LogIn, LogOut, Menu, ShoppingBag, User, UserPlus, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -45,6 +45,11 @@ export function Header() {
     };
   }, [userMenuOpen]);
 
+  // Close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
   const scrollTo = (href: string) => {
     setMenuOpen(false);
     const el = document.querySelector(href);
@@ -53,7 +58,6 @@ export function Header() {
 
   const handleNavClick = (href: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    setMenuOpen(false);
     scrollTo(href);
   };
 
@@ -73,6 +77,7 @@ export function Header() {
         </Link>
 
         <nav className={`header-nav ${menuOpen ? 'open' : ''}`}>
+          {/* Nav links */}
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -83,34 +88,150 @@ export function Header() {
               {link.label}
             </a>
           ))}
+
+          {/* Mobile-only section */}
+          {!isBackoffice && (
+            <div className="header-nav-mobile-section">
+              <div className="header-nav-divider" />
+
+              {isAuthenticated && user ? (
+                <>
+                  <div className="header-nav-user-info">
+                    <User size={16} />
+                    <div>
+                      <strong>{user.name}</strong>
+                      <span>{user.email}</span>
+                    </div>
+                  </div>
+
+                  <a
+                    href="#resumo"
+                    className="header-nav-action-link"
+                    onClick={(e) => { e.preventDefault(); scrollTo('#resumo'); }}
+                  >
+                    <ShoppingBag size={18} />
+                    <span>Carrinho</span>
+                    {itemCount > 0 && (
+                      <span className="header-nav-badge">{itemCount}</span>
+                    )}
+                  </a>
+
+                  {canAccessBackoffice && (
+                    <Link
+                      to="/backoffice"
+                      className="header-nav-action-link"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <LayoutDashboard size={18} />
+                      <span>Painel Admin</span>
+                    </Link>
+                  )}
+
+                  <button
+                    type="button"
+                    className="header-nav-action-link header-nav-logout"
+                    onClick={handleLogout}
+                  >
+                    <LogOut size={18} />
+                    <span>Terminar sessão</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="header-nav-action-link"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <LogIn size={18} />
+                    <span>Entrar</span>
+                  </Link>
+                  <Link
+                    to="/cadastro"
+                    className="header-nav-action-link"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <UserPlus size={18} />
+                    <span>Criar conta</span>
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
         </nav>
 
         <div className="header-actions">
+          {/* Desktop-only: cart + user menu */}
           {!isBackoffice && (
             isAuthenticated ? (
-              <a
-                href="#resumo"
-                className="header-icon-btn header-cart"
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo('#resumo');
-                }}
-              >
-                <ShoppingBag size={20} />
-                {itemCount > 0 && <span className="header-cart-badge">{itemCount}</span>}
-              </a>
+              <>
+                <a
+                  href="#resumo"
+                  className="header-icon-btn header-cart header-desktop-only"
+                  onClick={(e) => { e.preventDefault(); scrollTo('#resumo'); }}
+                >
+                  <ShoppingBag size={20} />
+                  {itemCount > 0 && <span className="header-cart-badge">{itemCount}</span>}
+                </a>
+
+                <div className="header-user-menu header-desktop-only" ref={userMenuRef}>
+                  <button
+                    type="button"
+                    className={`header-icon-btn header-user-trigger${userMenuOpen ? ' header-icon-btn--active' : ''}`}
+                    onClick={() => setUserMenuOpen((open) => !open)}
+                    aria-expanded={userMenuOpen}
+                    aria-haspopup="menu"
+                    aria-label="Menu do utilizador"
+                  >
+                    <User size={20} />
+                  </button>
+
+                  {userMenuOpen && (
+                    <div className="header-user-dropdown" role="menu">
+                      <div className="header-user-dropdown-info">
+                        <strong>{user.name}</strong>
+                        <span>{user.email}</span>
+                      </div>
+                      <div className="header-user-dropdown-divider" role="separator" />
+                      {canAccessBackoffice && (
+                        <Link
+                          to="/backoffice"
+                          className="header-user-dropdown-item"
+                          role="menuitem"
+                          onClick={() => setUserMenuOpen(false)}
+                        >
+                          <LayoutDashboard size={16} />
+                          Painel Admin
+                        </Link>
+                      )}
+                      {canAccessBackoffice && (
+                        <div className="header-user-dropdown-divider" role="separator" />
+                      )}
+                      <button
+                        type="button"
+                        className="header-user-dropdown-logout"
+                        role="menuitem"
+                        onClick={handleLogout}
+                      >
+                        <LogOut size={16} />
+                        Terminar sessão
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </>
             ) : (
               <>
                 <Link
                   to="/cadastro"
-                  className="btn btn-outline btn-sm header-signup"
+                  className="btn btn-outline btn-sm header-signup header-desktop-only"
                   onClick={() => setMenuOpen(false)}
                 >
                   <span className="header-signup-text">Criar conta</span>
                 </Link>
                 <Link
                   to="/login"
-                  className="btn btn-primary btn-sm header-login"
+                  className="btn btn-primary btn-sm header-login header-desktop-only"
                   onClick={() => setMenuOpen(false)}
                 >
                   <LogIn size={16} />
@@ -118,54 +239,6 @@ export function Header() {
                 </Link>
               </>
             )
-          )}
-
-          {isAuthenticated && user && (
-            <div className="header-user-menu" ref={userMenuRef}>
-              <button
-                type="button"
-                className={`header-icon-btn header-user-trigger${userMenuOpen ? ' header-icon-btn--active' : ''}`}
-                onClick={() => setUserMenuOpen((open) => !open)}
-                aria-expanded={userMenuOpen}
-                aria-haspopup="menu"
-                aria-label="Menu do utilizador"
-              >
-                <User size={20} />
-              </button>
-
-              {userMenuOpen && (
-                <div className="header-user-dropdown" role="menu">
-                  <div className="header-user-dropdown-info">
-                    <strong>{user.name}</strong>
-                    <span>{user.email}</span>
-                  </div>
-                  <div className="header-user-dropdown-divider" role="separator" />
-                  {canAccessBackoffice && (
-                    <Link
-                      to="/backoffice"
-                      className="header-user-dropdown-item"
-                      role="menuitem"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      <LayoutDashboard size={16} />
-                      Painel Admin
-                    </Link>
-                  )}
-                  {canAccessBackoffice && (
-                    <div className="header-user-dropdown-divider" role="separator" />
-                  )}
-                  <button
-                    type="button"
-                    className="header-user-dropdown-logout"
-                    role="menuitem"
-                    onClick={handleLogout}
-                  >
-                    <LogOut size={16} />
-                    Terminar sessão
-                  </button>
-                </div>
-              )}
-            </div>
           )}
 
           <button

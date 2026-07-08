@@ -211,6 +211,92 @@
   }
 }
 
+/* Mobile-only nav section (hidden on desktop) */
+.header-nav-mobile-section {
+  display: none;
+}
+
+.header-nav-divider {
+  height: 1px;
+  background: var(--gray-200);
+  margin: 0.25rem 0;
+}
+
+.header-nav-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: var(--gray-500);
+}
+
+.header-nav-user-info > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.header-nav-user-info strong {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.header-nav-user-info span {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-nav-action-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--gray-700);
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.header-nav-action-link:hover {
+  background: var(--brand-primary-light);
+  color: var(--brand-primary);
+}
+
+.header-nav-logout {
+  color: #dc2626;
+}
+
+.header-nav-logout:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.header-nav-badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  color: var(--white);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width: 768px) {
   .header-inner {
     gap: 0.5rem;
@@ -224,6 +310,10 @@
     display: flex;
   }
 
+  .header-desktop-only {
+    display: none !important;
+  }
+
   .header-nav {
     position: fixed;
     top: var(--header-height);
@@ -231,7 +321,7 @@
     right: 0;
     flex-direction: column;
     background: var(--white);
-    padding: 1rem;
+    padding: 0.5rem 0.75rem 1rem;
     border-bottom: 1px solid var(--gray-100);
     box-shadow: var(--shadow-lg);
     transform: translateY(-110%);
@@ -252,5 +342,11 @@
   .header-nav-link {
     width: 100%;
     padding: 0.875rem 1rem;
+  }
+
+  .header-nav-mobile-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 }

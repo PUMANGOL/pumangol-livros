@@ -14,6 +14,7 @@ import { useBooksPage } from '../hooks/useBooks';
 import { useFindBooksPage } from '../hooks/useFindBooks';
 import { mapApiBookToBook } from '../api/books';
 import { Pagination } from '../components/ui/Pagination';
+import { BookCardSkeleton } from '../components/catalog/BookCardSkeleton';
 import type { BookFindParams } from '../types/api';
 import type { Book } from '../types';
 import './HomePage.css';
@@ -127,6 +128,16 @@ export function HomePage() {
       educationLevelId: educationLevel ? Number(educationLevel) : 0,
     });
     setHasFiltered(true);
+    setPage(0);
+  };
+
+  const handleClear = () => {
+    setSearch('');
+    setCategory('');
+    setGrade('');
+    setEducationLevel('');
+    setBookFilters(defaultBookFilters);
+    setHasFiltered(false);
     setPage(0);
   };
 
@@ -248,13 +259,13 @@ export function HomePage() {
                 schoolClasses={schoolClasses}
                 schoolClassesLoading={isSchoolClassesLoading}
                 onFilter={handleFilter}
+                onClear={handleClear}
                 filterLoading={isBooksLoading || isBooksFetching}
               />
 
               {isBooksLoading ? (
-                <div className="catalog-empty">
-                  <span>📚</span>
-                  <p>A carregar livros...</p>
+                <div className="catalog-grid">
+                  <BookCardSkeleton count={8} />
                 </div>
               ) : filteredBooks.length > 0 ? (
                 <>

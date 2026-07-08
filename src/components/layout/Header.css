@@ -54,10 +54,6 @@
   padding: 0.5rem 0.875rem;
 }
 
-.header-finalize {
-  padding: 0.5rem 1.125rem;
-}
-
 .header-icon-btn {
   position: relative;
   display: flex;
@@ -198,10 +194,6 @@
 }
 
 @media (max-width: 900px) {
-  .header-finalize-text {
-    display: none;
-  }
-
   .header-login-text {
     display: none;
   }
@@ -212,13 +204,6 @@
 
   .header-login,
   .header-signup {
-    padding: 0.5rem;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-  }
-
-  .header-finalize {
     padding: 0.5rem;
     width: 42px;
     height: 42px;

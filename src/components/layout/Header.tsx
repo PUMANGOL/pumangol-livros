@@ -1,8 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, LogIn, LogOut, Menu, ShoppingBag, ShoppingCart, User, X } from 'lucide-react';
+import { LayoutDashboard, LogIn, LogOut, Menu, ShoppingBag, User, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useCart } from '../../context/CartContext';
-import { useOrderModal } from '../../context/OrderModalContext';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import './Header.css';
@@ -18,7 +17,6 @@ export function Header() {
   const { pathname } = useLocation();
   const isBackoffice = pathname.startsWith('/backoffice');
   const { itemCount } = useCart();
-  const { openOrderModal } = useOrderModal();
   const { user, isAuthenticated, logout, canAccessBackoffice } = useAuth();
   const { showToast } = useToast();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -90,31 +88,17 @@ export function Header() {
         <div className="header-actions">
           {!isBackoffice && (
             isAuthenticated ? (
-              <>
-                <a
-                  href="#encomenda"
-                  className="btn btn-primary btn-sm header-finalize"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    openOrderModal();
-                  }}
-                >
-                  <ShoppingCart size={16} />
-                  <span className="header-finalize-text">Finalizar pedido</span>
-                </a>
-
-                <a
-                  href="#resumo"
-                  className="header-icon-btn header-cart"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    scrollTo('#resumo');
-                  }}
-                >
-                  <ShoppingBag size={20} />
-                  {itemCount > 0 && <span className="header-cart-badge">{itemCount}</span>}
-                </a>
-              </>
+              <a
+                href="#resumo"
+                className="header-icon-btn header-cart"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollTo('#resumo');
+                }}
+              >
+                <ShoppingBag size={20} />
+                {itemCount > 0 && <span className="header-cart-badge">{itemCount}</span>}
+              </a>
             ) : (
               <>
                 <Link

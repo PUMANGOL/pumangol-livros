@@ -1,4 +1,4 @@
-import { Search, SlidersHorizontal } from 'lucide-react';
+import { BrushCleaning, Search, SlidersHorizontal } from 'lucide-react';
 import { Select } from '../ui/Select';
 import './CatalogFilters.css';
 
@@ -34,6 +34,7 @@ interface CatalogFiltersProps {
   levelsLoading?: boolean;
   schoolClassesLoading?: boolean;
   onFilter: () => void;
+  onClear: () => void;
   filterLoading?: boolean;
 }
 
@@ -54,8 +55,11 @@ export function CatalogFilters({
   levelsLoading = false,
   schoolClassesLoading = false,
   onFilter,
+  onClear,
   filterLoading = false,
 }: CatalogFiltersProps) {
+  const hasActiveFilters = !!(search.trim() || category || educationLevel || grade);
+
   return (
     <div className="catalog-filters">
       <div className="catalog-filters-search">
@@ -70,46 +74,68 @@ export function CatalogFilters({
       </div>
 
       <div className="catalog-filters-row">
-        <div className="catalog-filters-group">
-          <SlidersHorizontal size={16} />
-          <span className="catalog-filters-label">Filtros:</span>
+        <div className="catalog-filters-heading">
+          <SlidersHorizontal size={14} />
+          <span>Filtros</span>
         </div>
 
-        <Select
-          className="catalog-filters-select"
-          value={category}
-          onChange={onCategoryChange}
-          disabled={categoriesLoading}
-          placeholder={categoriesLoading ? 'A carregar categorias...' : 'Todas as categorias'}
-          options={categories?.map((c) => ({ value: String(c.id), label: c.name })) || []}
-        />
+        <div className="catalog-filters-selects">
+          <div className="catalog-filters-field">
+            <span className="catalog-filters-field-label">Categoria</span>
+            <Select
+              value={category}
+              onChange={onCategoryChange}
+              disabled={categoriesLoading}
+              placeholder={categoriesLoading ? 'A carregar...' : 'Todas'}
+              options={categories?.map((c) => ({ value: String(c.id), label: c.name })) || []}
+            />
+          </div>
 
-        <Select
-          className="catalog-filters-select"
-          value={educationLevel}
-          onChange={onEducationLevelChange}
-          disabled={levelsLoading}
-          placeholder={levelsLoading ? 'A carregar níveis...' : 'Todos os níveis'}
-          options={levels?.map((l) => ({ value: String(l.id), label: l.name })) || []}
-        />
+          <div className="catalog-filters-field">
+            <span className="catalog-filters-field-label">Nível de ensino</span>
+            <Select
+              value={educationLevel}
+              onChange={onEducationLevelChange}
+              disabled={levelsLoading}
+              placeholder={levelsLoading ? 'A carregar...' : 'Todos'}
+              options={levels?.map((l) => ({ value: String(l.id), label: l.name })) || []}
+            />
+          </div>
 
-        <Select
-          className="catalog-filters-select"
-          value={grade}
-          onChange={onGradeChange}
-          disabled={schoolClassesLoading}
-          placeholder={schoolClassesLoading ? 'A carregar classes...' : 'Todas as classes'}
-          options={schoolClasses?.map((c) => ({ value: String(c.id), label: c.name })) || []}
-        />
+          <div className="catalog-filters-field">
+            <span className="catalog-filters-field-label">Classe</span>
+            <Select
+              value={grade}
+              onChange={onGradeChange}
+              disabled={schoolClassesLoading}
+              placeholder={schoolClassesLoading ? 'A carregar...' : 'Todas'}
+              options={schoolClasses?.map((c) => ({ value: String(c.id), label: c.name })) || []}
+            />
+          </div>
+        </div>
 
-        <button
-          type="button"
-          className="btn btn-primary btn-sm catalog-filters-submit"
-          onClick={onFilter}
-          disabled={filterLoading}
-        >
-          {filterLoading ? 'A filtrar...' : 'Filtrar'}
-        </button>
+        <div className="catalog-filters-actions">
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={onFilter}
+            disabled={filterLoading}
+          >
+            {filterLoading ? 'A filtrar...' : 'Filtrar'}
+          </button>
+
+          {hasActiveFilters && (
+            <button
+              type="button"
+              className="btn btn-primary btn-sm catalog-filters-clear"
+              onClick={onClear}
+              title="Limpar filtros"
+              aria-label="Limpar filtros"
+            >
+              <BrushCleaning size={18} />
+            </button>
+          )}
+        </div>
 
         <span className="catalog-filters-count">
           {resultCount} {resultCount === 1 ? 'livro' : 'livros'}

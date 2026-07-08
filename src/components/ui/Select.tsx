@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useId, useCallback } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { Check, ChevronDown, X } from 'lucide-react';
 import './Select.css';
 
 export interface SelectOption {
@@ -19,6 +20,18 @@ interface SelectProps {
   clearable?: boolean;
 }
 
+function useIsMobile(breakpoint = 768) {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth <= breakpoint);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth <= breakpoint);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
 export function Select({
   value,
   onChange,
@@ -36,6 +49,7 @@ export function Select({
   const listRef = useRef<HTMLUListElement>(null);
   const generatedId = useId();
   const selectId = id ?? generatedId;
+  const isMobile = useIsMobile();
 
   const listOptions: SelectOption[] = clearable
     ? [{ value: '', label: placeholder }, ...options]
@@ -50,8 +64,18 @@ export function Select({
     setHighlightedIndex(-1);
   }, []);
 
+  // Lock body scroll when bottom sheet is open on mobile
   useEffect(() => {
-    if (!open) return;
+    if (open && isMobile) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [open, isMobile]);
+
+  useEffect(() => {
+    if (!open || isMobile) return;
 
     const handleClickOutside = (e: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
@@ -61,10 +85,10 @@ export function Select({
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [open, close]);
+  }, [open, isMobile, close]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || isMobile) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -94,7 +118,7 @@ export function Select({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [open, close, highlightedIndex, listOptions, onChange]);
+  }, [open, isMobile, close, highlightedIndex, listOptions, onChange]);
 
   useEffect(() => {
     if (!open || highlightedIndex < 0 || !listRef.current) return;
@@ -119,79 +143,136 @@ export function Select({
     }
   };
 
+  const bottomSheet =
+    open && isMobile
+      ? createPortal(
+          <div
+            className="select-sheet-overlay"
+            onMouseDown={close}
+          >
+            <div
+              className="select-sheet"
+              onMouseDown={(e) => e.stopPropagation()}
+            >
+              <div className="select-sheet-handle" />
+              <div className="select-sheet-header">
+                <span className="select-sheet-title">{placeholder}</span>
+                <button
+                  type="button"
+                  className="select-sheet-close"
+                  onClick={close}
+                  aria-label="Fechar"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+              <ul className="select-sheet-list" role="listbox">
+                {listOptions.map((option) => {
+                  const isSelected = option.value === value;
+                  return (
+                    <li
+                      key={option.value || '__empty__'}
+                      role="option"
+                      aria-selected={isSelected}
+                      className={[
+                        'select-sheet-item',
+                        isSelected && 'select-sheet-item--selected',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      onClick={() => handleSelect(option.value)}
+                    >
+                      <span className="select-sheet-item-label">{option.label}</span>
+                      {isSelected && (
+                        <Check size={16} strokeWidth={2.5} className="select-sheet-item-check" />
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
   return (
-    <div
-      ref={containerRef}
-      className={[
-        'select',
-        open && 'select--open',
-        disabled && 'select--disabled',
-        error && 'select--error',
-        className,
-      ]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <button
-        type="button"
-        id={selectId}
-        className="select-trigger"
-        onClick={() => {
-          if (disabled) return;
-          setOpen((prev) => {
-            if (!prev) {
-              const currentIndex = listOptions.findIndex((o) => o.value === value);
-              setHighlightedIndex(currentIndex >= 0 ? currentIndex : 0);
-            }
-            return !prev;
-          });
-        }}
-        onKeyDown={handleTriggerKeyDown}
-        disabled={disabled}
-        aria-haspopup="listbox"
-        aria-expanded={open}
+    <>
+      <div
+        ref={containerRef}
+        className={[
+          'select',
+          open && 'select--open',
+          disabled && 'select--disabled',
+          error && 'select--error',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
-        <span className={`select-value${!value ? ' select-value--placeholder' : ''}`}>
-          {selectedLabel}
-        </span>
-        <ChevronDown size={16} className="select-icon" aria-hidden="true" />
-      </button>
-
-      {open && (
-        <ul
-          ref={listRef}
-          className="select-content"
-          role="listbox"
-          aria-labelledby={selectId}
+        <button
+          type="button"
+          id={selectId}
+          className="select-trigger"
+          onClick={() => {
+            if (disabled) return;
+            setOpen((prev) => {
+              if (!prev) {
+                const currentIndex = listOptions.findIndex((o) => o.value === value);
+                setHighlightedIndex(currentIndex >= 0 ? currentIndex : 0);
+              }
+              return !prev;
+            });
+          }}
+          onKeyDown={handleTriggerKeyDown}
+          disabled={disabled}
+          aria-haspopup="listbox"
+          aria-expanded={open}
         >
-          {listOptions.map((option, index) => {
-            const isSelected = option.value === value;
-            const isHighlighted = index === highlightedIndex;
+          <span className={`select-value${!value ? ' select-value--placeholder' : ''}`}>
+            {selectedLabel}
+          </span>
+          <ChevronDown size={16} className="select-icon" aria-hidden="true" />
+        </button>
 
-            return (
-              <li
-                key={option.value || '__empty__'}
-                role="option"
-                aria-selected={isSelected}
-                className={[
-                  'select-item',
-                  isSelected && 'select-item--selected',
-                  isHighlighted && 'select-item--highlighted',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                onMouseEnter={() => setHighlightedIndex(index)}
-                onClick={() => handleSelect(option.value)}
-              >
-                <span className="select-item-indicator" aria-hidden="true">
-                  {isSelected && <Check size={14} strokeWidth={2.5} />}
-                </span>
-                <span className="select-item-label">{option.label}</span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
+        {open && !isMobile && (
+          <ul
+            ref={listRef}
+            className="select-content"
+            role="listbox"
+            aria-labelledby={selectId}
+          >
+            {listOptions.map((option, index) => {
+              const isSelected = option.value === value;
+              const isHighlighted = index === highlightedIndex;
+
+              return (
+                <li
+                  key={option.value || '__empty__'}
+                  role="option"
+                  aria-selected={isSelected}
+                  className={[
+                    'select-item',
+                    isSelected && 'select-item--selected',
+                    isHighlighted && 'select-item--highlighted',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  onMouseEnter={() => setHighlightedIndex(index)}
+                  onClick={() => handleSelect(option.value)}
+                >
+                  <span className="select-item-indicator" aria-hidden="true">
+                    {isSelected && <Check size={14} strokeWidth={2.5} />}
+                  </span>
+                  <span className="select-item-label">{option.label}</span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
+
+      {bottomSheet}
+    </>
   );
 }

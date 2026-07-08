@@ -80,7 +80,10 @@
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  right: 0;
+  right: auto;
+  min-width: 100%;
+  width: max-content;
+  max-width: min(340px, 90vw);
   z-index: 50;
   margin: 0;
   padding: 0.25rem;
@@ -135,8 +138,6 @@
 .select-item-label {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
@@ -162,4 +163,128 @@
 .select-content::-webkit-scrollbar-thumb {
   background: var(--gray-300);
   border-radius: 3px;
+}
+
+/* ── Bottom sheet (mobile) ─────────────────────────────── */
+
+.select-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: flex-end;
+  animation: selectOverlayIn 0.2s ease;
+}
+
+@keyframes selectOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.select-sheet {
+  width: 100%;
+  background: var(--white);
+  border-radius: 1rem 1rem 0 0;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  animation: selectSheetIn 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes selectSheetIn {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+
+.select-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: var(--gray-300);
+  border-radius: 2px;
+  margin: 0.625rem auto 0;
+  flex-shrink: 0;
+}
+
+.select-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--gray-200);
+  flex-shrink: 0;
+}
+
+.select-sheet-title {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+
+.select-sheet-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: var(--gray-100);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--gray-600);
+  transition: background-color 0.15s;
+}
+
+.select-sheet-close:hover {
+  background: var(--gray-200);
+}
+
+.select-sheet-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.select-sheet-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.select-sheet-list::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 2px;
+}
+
+.select-sheet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.select-sheet-item:active {
+  background: var(--gray-100);
+}
+
+.select-sheet-item--selected {
+  background: var(--brand-primary-light);
+  color: var(--brand-primary-dark);
+  font-weight: 600;
+}
+
+.select-sheet-item-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.select-sheet-item-check {
+  flex-shrink: 0;
+  color: var(--brand-primary);
 }

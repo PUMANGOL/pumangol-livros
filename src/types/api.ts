@@ -120,6 +120,8 @@ export interface ApiOrderItem {
   book: string;
   quantity: number;
   price: number;
+  subTotal?: number;
+  coverImage?: string | null;
 }
 
 export interface ApiOrderDetail {
@@ -131,6 +133,7 @@ export interface ApiOrderDetail {
   items: ApiOrderItem[];
   status: string;
   createAt: string;
+  total?: number;
 }
 
 export interface PickupPost {

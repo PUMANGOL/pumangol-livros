@@ -8,6 +8,7 @@ import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { ConfirmationPage } from './pages/ConfirmationPage';
+import { OrderDetailPage } from './pages/OrderDetailPage';
 import { BackofficeLayout } from './components/backoffice/BackofficeLayout';
 import { BackofficeOrdersPage } from './pages/backoffice/BackofficeOrdersPage';
 import { BackofficeBooksPage } from './pages/backoffice/BackofficeBooksPage';
@@ -28,6 +29,7 @@ function App() {
                 <Route path="catalogo" element={<Navigate to="/#catalogo" replace />} />
                 <Route path="encomenda" element={<Navigate to="/#encomenda" replace />} />
                 <Route path="confirmacao/:orderId" element={<ConfirmationPage />} />
+                <Route path="encomenda/:orderId" element={<OrderDetailPage />} />
                 <Route
                   path="backoffice"
                   element={(

@@ -82,7 +82,7 @@ export function OrderItemsModal({ isOpen, onClose, order }: OrderItemsModalProps
                 <li key={item.id} className="order-items-modal-item">
                   <BookCover
                     title={book?.title ?? item.book}
-                    src={book?.coverImage}
+                    src={item.coverImage ?? book?.coverImage}
                     className="order-items-modal-thumb"
                   />
                   <div className="order-items-modal-info">
@@ -98,7 +98,7 @@ export function OrderItemsModal({ isOpen, onClose, order }: OrderItemsModalProps
                   </div>
                   <div className="order-items-modal-qty">×{item.quantity}</div>
                   <div className="order-items-modal-subtotal">
-                    {formatPrice(item.price * item.quantity)}
+                    {formatPrice(item.subTotal ?? item.price * item.quantity)}
                   </div>
                 </li>
               );

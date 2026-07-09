@@ -1,7 +1,9 @@
 import { Minus, Plus, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useOrderModal } from '../../context/OrderModalContext';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
 import { formatPrice } from '../../utils/helpers';
 import { formatBookGradeNames } from '../../utils/bookGrades';
 import { BookCover } from '../catalog/BookCover';
@@ -11,6 +13,8 @@ export function OrderSummaryPanel() {
   const { items, updateQuantity, removeFromCart, total, itemCount } = useCart();
   const { openOrderModal } = useOrderModal();
   const { isAuthenticated } = useAuth();
+  const { showToast } = useToast();
+  const navigate = useNavigate();
 
   const scrollTo = (id: string) => {
     document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -90,16 +94,21 @@ export function OrderSummaryPanel() {
           >
             Continuar a escolher
           </button>
-          {isAuthenticated && (
-            <button
-              type="button"
-              className="btn btn-primary btn-block"
-              disabled={items.length === 0}
-              onClick={openOrderModal}
-            >
-              Avançar para encomenda
-            </button>
-          )}
+          <button
+            type="button"
+            className="btn btn-primary btn-block"
+            disabled={items.length === 0}
+            onClick={() => {
+              if (isAuthenticated) {
+                openOrderModal();
+              } else {
+                showToast('Inicie sessão para finalizar a encomenda.');
+                navigate('/login');
+              }
+            }}
+          >
+            Avançar para encomenda
+          </button>
         </div>
       </div>
     </aside>

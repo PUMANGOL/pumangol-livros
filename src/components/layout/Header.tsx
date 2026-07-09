@@ -97,7 +97,7 @@ export function Header() {
               {isAuthenticated && user ? (
                 <>
                   <div className="header-nav-user-info">
-                    <User size={16} />
+                    <User size={20} />
                     <div>
                       <strong>{user.name}</strong>
                       <span>{user.email}</span>
@@ -109,7 +109,7 @@ export function Header() {
                     className="header-nav-action-link"
                     onClick={(e) => { e.preventDefault(); scrollTo('#resumo'); }}
                   >
-                    <ShoppingBag size={18} />
+                    <ShoppingBag size={20} />
                     <span>Carrinho</span>
                     {itemCount > 0 && (
                       <span className="header-nav-badge">{itemCount}</span>
@@ -122,7 +122,7 @@ export function Header() {
                       className="header-nav-action-link"
                       onClick={() => setMenuOpen(false)}
                     >
-                      <LayoutDashboard size={18} />
+                      <LayoutDashboard size={20} />
                       <span>Painel Admin</span>
                     </Link>
                   )}
@@ -132,7 +132,7 @@ export function Header() {
                     className="header-nav-action-link header-nav-logout"
                     onClick={handleLogout}
                   >
-                    <LogOut size={18} />
+                    <LogOut size={20} />
                     <span>Terminar sessão</span>
                   </button>
                 </>
@@ -143,7 +143,7 @@ export function Header() {
                     className="header-nav-action-link"
                     onClick={() => setMenuOpen(false)}
                   >
-                    <LogIn size={18} />
+                    <LogIn size={20} />
                     <span>Entrar</span>
                   </Link>
                   <Link
@@ -151,7 +151,7 @@ export function Header() {
                     className="header-nav-action-link"
                     onClick={() => setMenuOpen(false)}
                   >
-                    <UserPlus size={18} />
+                    <UserPlus size={20} />
                     <span>Criar conta</span>
                   </Link>
                 </>

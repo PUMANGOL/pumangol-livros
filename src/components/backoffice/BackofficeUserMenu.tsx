@@ -5,7 +5,11 @@ import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import './BackofficeUserMenu.css';
 
-export function BackofficeUserMenu() {
+interface BackofficeUserMenuProps {
+  collapsed?: boolean;
+}
+
+export function BackofficeUserMenu({ collapsed = false }: BackofficeUserMenuProps) {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { showToast } = useToast();
@@ -79,19 +83,24 @@ export function BackofficeUserMenu() {
         onClick={() => setIsOpen((open) => !open)}
         aria-expanded={isOpen}
         aria-haspopup="menu"
+        title={collapsed ? user.name : undefined}
       >
         <span className="backoffice-user-trigger-icon" aria-hidden="true">
           <User size={18} />
         </span>
-        <span className="backoffice-user-trigger-text">
-          <strong>{user.name}</strong>
-          <span>{user.email}</span>
-        </span>
-        <ChevronUp
-          size={16}
-          className={`backoffice-user-trigger-chevron${isOpen ? ' backoffice-user-trigger-chevron--open' : ''}`}
-          aria-hidden="true"
-        />
+        {!collapsed && (
+          <>
+            <span className="backoffice-user-trigger-text">
+              <strong>{user.name}</strong>
+              <span>{user.email}</span>
+            </span>
+            <ChevronUp
+              size={16}
+              className={`backoffice-user-trigger-chevron${isOpen ? ' backoffice-user-trigger-chevron--open' : ''}`}
+              aria-hidden="true"
+            />
+          </>
+        )}
       </button>
     </div>
   );

@@ -2,8 +2,14 @@ import { apiClient } from './client';
 import type { ApiResponse, ApiOrder, ApiOrderDetail, CreateOrderPayload, Page } from '../types/api';
 import type { CartItem, CustomerData, Order } from '../types';
 
-export function getOrderTotal(order: Pick<ApiOrderDetail, 'items'>): number {
-  return order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+export function getOrderTotal(order: Pick<ApiOrderDetail, 'items' | 'total'>): number {
+  if (order.total != null) return order.total;
+  return order.items.reduce((sum, item) => sum + (item.subTotal ?? item.price * item.quantity), 0);
+}
+
+export async function fetchOrderById(id: number): Promise<ApiOrderDetail> {
+  const { data } = await apiClient.get<ApiResponse<ApiOrderDetail>>(`/order/${id}`);
+  return data.data;
 }
 
 export async function fetchOrders(): Promise<ApiOrderDetail[]> {
@@ -51,6 +57,19 @@ export async function updateOrder(
   payload: CreateOrderPayload,
 ): Promise<ApiOrderDetail> {
   const { data } = await apiClient.put<ApiResponse<ApiOrderDetail>>(`/order/${id}`, payload);
+
+  return data.data;
+}
+
+export async function updateOrderStatus(
+  id: number,
+  statusId: number,
+): Promise<ApiOrderDetail> {
+  const { data } = await apiClient.put<ApiResponse<ApiOrderDetail>>(
+    `/order/${id}/status`,
+    null,
+    { params: { statusId } },
+  );
 
   return data.data;
 }

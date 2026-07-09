@@ -10,6 +10,7 @@ import { useToast } from '../../context/ToastContext';
 import {
   orderStatusLabels,
   orderStatusOptions,
+  backofficeUpdateStatusOptions,
 } from '../../constants/orderStatus';
 import type { ApiOrderDetail } from '../../types/api';
 
@@ -70,11 +71,9 @@ export function BackofficeOrdersPage() {
     );
   };
 
-  const handleStatusChange = (order: ApiOrderDetail, status: string) => {
-    if (!status || status === order.status) return;
-
+  const handleStatusChange = (order: ApiOrderDetail, statusId: number) => {
     updateStatus(
-      { order, status },
+      { order, statusId },
       {
         onSuccess: (updatedOrder) => {
           if (selectedOrder?.id === updatedOrder.id) {
@@ -128,7 +127,7 @@ export function BackofficeOrdersPage() {
               </div>
               <div className="stat-card">
                 <span className="stat-value">
-                  {orders.filter((o) => o.status === 'PENDING').length}
+                  {orders.filter((o) => o.status === 'Pendente').length}
                 </span>
                 <span className="stat-label">Pendentes</span>
               </div>
@@ -206,9 +205,9 @@ export function BackofficeOrdersPage() {
                           <td className="backoffice-status-cell">
                             <Select
                               className="backoffice-status-select"
-                              value={order.status}
-                              onChange={(status) => handleStatusChange(order, status)}
-                              options={statusOptions}
+                              value=""
+                              onChange={(val) => handleStatusChange(order, Number(val))}
+                              options={backofficeUpdateStatusOptions}
                               disabled={isUpdatingThisOrder}
                               clearable={false}
                               placeholder={orderStatusLabels[order.status] ?? order.status}

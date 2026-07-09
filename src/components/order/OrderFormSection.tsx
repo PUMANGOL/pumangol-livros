@@ -2,28 +2,28 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Wand2 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
 import { usePickupPosts } from '../../hooks/usePickupPosts';
 import { Select } from '../ui/Select';
 import type { CustomerData } from '../../types';
 import './OrderFormSection.css';
 
-const initialForm: CustomerData = {
-  fullName: '',
-  phone: '',
-  email: '',
-  location: '',
-  pickupPostId: '',
-  notes: '',
-  termsAccepted: false,
-};
-
 export function OrderFormSection({ onClose }: { onClose?: () => void }) {
   const navigate = useNavigate();
   const { items, submitOrder } = useCart();
+  const { user } = useAuth();
   const { showToast } = useToast();
   const { data: pickupPosts = [], isLoading: isPickupPostsLoading } = usePickupPosts();
-  const [form, setForm] = useState<CustomerData>(initialForm);
+  const [form, setForm] = useState<CustomerData>({
+    fullName: user?.name ?? '',
+    phone: user?.msisdn ?? '',
+    email: user?.email ?? '',
+    location: '',
+    pickupPostId: '',
+    notes: '',
+    termsAccepted: false,
+  });
   const [errors, setErrors] = useState<Partial<Record<keyof CustomerData, string>>>({});
   const [submitting, setSubmitting] = useState(false);
 

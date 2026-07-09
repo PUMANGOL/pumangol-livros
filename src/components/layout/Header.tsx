@@ -189,8 +189,8 @@ export function Header() {
                   {userMenuOpen && (
                     <div className="header-user-dropdown" role="menu">
                       <div className="header-user-dropdown-info">
-                        <strong>{user.name}</strong>
-                        <span>{user.email}</span>
+                        <strong>{user?.name}</strong>
+                        <span>{user?.email}</span>
                       </div>
                       <div className="header-user-dropdown-divider" role="separator" />
                       {canAccessBackoffice && (
